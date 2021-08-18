@@ -1,5 +1,5 @@
 .mainContainerStyle{
-    background: #1d62c8;
+    background: #1976d2;
     height: 100vh;
 }
 
@@ -16,7 +16,7 @@
     height: 80%;
     width: 80%;
     margin: auto;
-    border-radius: 8px;
+    border-radius: 5px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -24,4 +24,24 @@
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.addBugBtn{
+    background: #00862f !important;
+    position: absolute !important;
+    right: 15px;
+    top: 15px;
+}
+
+.MuiButton-contained{
+    color: rgb(233, 233, 233) !important;
+}
+
+.bugCardStyle{
+    overflow:hidden;
+    overflow-y:scroll;
+    height: 85%;
+    position: absolute;
+    width: 100%;
+    bottom: 4px;
 }

@@ -1,0 +1,16 @@
+.bugStyle{
+    padding-left: 10px;
+    cursor: pointer;
+    border-bottom: 2px solid rgb(224, 224, 224);
+}
+
+.bugStyle:hover{
+    background: rgb(243, 243, 243);
+}
+
+.bugTextStyle{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    height: 40px;
+    padding-top: 15px;
+}
