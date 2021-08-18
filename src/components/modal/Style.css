@@ -1,0 +1,8 @@
+.MuiDialog-paperWidthSm{
+    min-width: 600px !important;
+    max-width: 650px !important;
+}
+
+.MuiDialogTitle-root{
+    border-bottom: 2px solid #e2e2e2;
+}

@@ -5,8 +5,14 @@ import { useFirestore } from "reactfire";
 import "firebase/firestore";
 import React, { useState, useEffect } from 'react';
 import Bug from '../../components/bug/Bug';
+import { useSelector, useDispatch } from "react-redux";
+import { openModal, closeModal } from '../../redux/Actions';
+import Modal from '../../components/modal/Modal';
 
 function Main() {
+
+    const modalRed = useSelector((state) => state.ModalReducer);
+    const dispatch = useDispatch();
 
     const [firestoreData, setFirestoreData] = useState([]);
 
@@ -33,7 +39,7 @@ function Main() {
     useItems("Bugs", setFirestoreData, firestoreData);
 
     const addBug = () => {
-        console.log('click');
+        dispatch(openModal('addTitle'));
     }
 
     return (
@@ -41,20 +47,21 @@ function Main() {
             <h1 className='titleStyle'>Bugs Manager</h1>
             <FadeIn transitionDuration='800' childTag='bodyStyle'>
                 <div className='bodyStyle'>
-                    <Button onClick={addBug} variant="contained" className='addBugBtn'>add new bug</Button>
+                <Button onClick={addBug} variant="contained" className='addBugBtn'>add new bug</Button>
                     {firestoreData.length !== 0 &&
                         <div className='bugCardStyle'>
-                            <FadeIn>
-                                {firestoreData.map(item => {
-                                    return (
-                                        <Bug item={item} />
-                                    );
-                                })}
+                            <FadeIn transitionDuration='800' childTag='bodyStyle'>
+                                {/* {firestoreData.map(item => { */}
+                                    {/* return ( */}
+                                        <Bug firestoreData={firestoreData} />
+                                    {/* ); */}
+                                {/* })} */}
                             </FadeIn>
                         </div>
                     }
                 </div>
             </FadeIn>
+            <Modal />
         </div>
     );
 }

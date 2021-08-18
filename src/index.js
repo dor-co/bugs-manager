@@ -5,6 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Main from './screens/main/Main';
 import { FirebaseAppProvider } from "reactfire";
+import { createStore } from "redux";
+import allReducers from "./redux/IndexReducers";
+import { Provider } from "react-redux";
+
+const store = createStore(
+  allReducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 var firebaseConfig = {
   apiKey: "AIzaSyBNY-M24aspyJ32qUJe20D1ksDMD8svG-I",
@@ -18,10 +26,12 @@ var firebaseConfig = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-      <Main />
-      {/* <App /> */}
-    </FirebaseAppProvider>
+    <Provider store={store}>
+      <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+        <Main />
+        {/* <App /> */}
+      </FirebaseAppProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
