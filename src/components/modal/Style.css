@@ -6,3 +6,8 @@
 .MuiDialogTitle-root{
     border-bottom: 2px solid #e2e2e2;
 }
+
+.inputFieldStyle{
+    margin-top: 10px !important;
+    width: 292px !important;
+}
