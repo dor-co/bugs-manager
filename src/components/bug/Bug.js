@@ -1,5 +1,5 @@
 import './Style.css';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,9 +11,11 @@ import Paper from '@material-ui/core/Paper';
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from '../../redux/Actions';
 
-function Bug({ firestoreData }) {
+function Bug() {
 
+    const dataRed = useSelector((state) => state.DataReducer);
     const dispatch = useDispatch();
+    console.log("-----", dataRed, "-----")
 
     const StyledTableCell = withStyles((theme) => ({
         head: {
@@ -47,8 +49,8 @@ function Bug({ firestoreData }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {firestoreData.map((row) => (
-                        <StyledTableRow hover key={firestoreData.title} onClick={() => cl(row)} style={{ cursor: 'pointer' }}>
+                    {dataRed.data.map((row) => (
+                        <StyledTableRow hover key={dataRed.data.title} onClick={() => cl(row)} style={{ cursor: 'pointer' }}>
                             <StyledTableCell component="th" scope="row">
                                 {row.title}
                             </StyledTableCell>

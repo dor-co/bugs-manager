@@ -14,3 +14,11 @@ export const closeModal = () => {
     type: actions.CLOSE_MODAL
   };
 };
+
+export const getData = (data) => {
+  return {
+    type: actions.GET_DATA,
+    data: data
+  };
+};
+

@@ -9,11 +9,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useSelector, useDispatch } from "react-redux";
-import { closeModal } from "../../redux/Actions";
+import { closeModal, getData } from "../../redux/Actions";
 
 function Modal() {
 
     const modalRed = useSelector((state) => state.ModalReducer);
+    const dataRed = useSelector((state) => state.DataReducer);
     const dispatch = useDispatch();
 
     const [titleErrorValid, setTitleErrorValid] = useState(false);
@@ -22,6 +23,11 @@ function Modal() {
     const [descriptionInput, setDescriptionInput] = useState("");
     const [statusErrorValid, setStatusErrorValid] = useState(false);
     const [statusInput, setStatusInput] = useState("");
+    const [criticalErrorValid, setCriticalErrorValid] = useState(false);
+    const [criticalInput, setCriticalInput] = useState("");
+
+
+    const [dataArray, setDataArray] = useState([]);
 
     const titleBlur = (e) => {
         setTitleInput(e.target.value);
@@ -78,6 +84,72 @@ function Modal() {
         }
     };
 
+    const criticalBlur = (e) => {
+        if(e.target.value.trim() === ""){
+            e.target.value = "";
+        } else if(e.target.value < 1){
+            e.target.value = 1;
+        }
+        setCriticalInput(e.target.value);
+        if (e.target.value.trim() !== "") {
+            setCriticalErrorValid(false);
+        } else {
+            setCriticalErrorValid(true);
+        }
+    };
+
+    const criticalChange = (e) => {
+        if(e.target.value > 10){
+            e.target.value = 10;
+        }
+        if (e.target.value.trim() !== "") {
+            setCriticalErrorValid(false);
+        } else {
+            setCriticalErrorValid(true);
+        }
+    };
+
+    const getFromDB = async () => {
+        const response = await fetch('https://bugsmanager-9d88c-default-rtdb.firebaseio.com/bugs.json');
+        const data = await response.json();
+
+        const loadedData = [];
+
+        for (const key in data) {
+            loadedData.push({
+                id: key,
+                title: data[key].title,
+                description: data[key].description,
+                status: data[key].status,
+                critical: data[key].critical
+            });
+        }
+
+        setDataArray(loadedData);
+        console.log('loaded data:', loadedData);
+
+        dispatch(getData(loadedData));
+    };
+
+    const postToDB = async () => {
+        const response = await fetch('https://bugsmanager-9d88c-default-rtdb.firebaseio.com/bugs.json', {
+            method: 'POST',
+            body: JSON.stringify({ 
+                title: titleInput, 
+                description: descriptionInput, 
+                status: statusInput, 
+                critical: criticalInput
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        console.log('post data:', data);
+
+        getFromDB();
+    };
+
     const addClick = () => {
         if (titleInput.trim() === "") {
             setTitleErrorValid(true);
@@ -85,11 +157,15 @@ function Modal() {
             setDescriptionErrorValid(true);
         } if (statusInput.trim() === "") {
             setStatusErrorValid(true);
+        } if (criticalInput.trim() === "") {
+            setCriticalErrorValid(true);
         } else if (titleInput.trim() !== "" && descriptionInput.trim() !== "" && statusInput.trim() !== "") {
             //add to firebase
+            postToDB();
             setTitleInput('');
             setDescriptionInput('');
-            setStatusInput('')
+            setStatusInput('');
+            setCriticalInput('');
             return dispatch(closeModal());
         }
     };
@@ -101,6 +177,8 @@ function Modal() {
         setDescriptionInput('');
         setStatusErrorValid(false);
         setStatusInput('');
+        setCriticalErrorValid(false);
+        setCriticalInput('');
         return dispatch(closeModal());
     };
 
@@ -186,6 +264,17 @@ function Modal() {
                                                 </MenuItem>
                                             ))}
                                         </TextField>
+                                        <div>
+                                            <TextField
+                                                className='inputFieldStyle'
+                                                onBlur={criticalBlur}
+                                                onChange={criticalChange}
+                                                type='number'
+                                                error={criticalErrorValid ? true : false}
+                                                label="Bug Critical"
+                                                helperText={criticalErrorValid ? 'bug critical is required (1-10)' : ''}
+                                            />
+                                        </div>
                                     </div>
                                 </>
                             ) : ''
