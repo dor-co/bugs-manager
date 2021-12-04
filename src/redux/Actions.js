@@ -22,3 +22,10 @@ export const getData = (data) => {
   };
 };
 
+export const getName = (first, last) => {
+  return {
+    type: actions.GET_NAME,
+    first: first,
+    last: last
+  };
+};

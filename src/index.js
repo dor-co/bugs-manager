@@ -8,6 +8,10 @@ import { FirebaseAppProvider } from "reactfire";
 import { createStore } from "redux";
 import allReducers from "./redux/IndexReducers";
 import { Provider } from "react-redux";
+import FormTest from './FormTest';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Second from "./second";
 
 const store = createStore(
   allReducers,
@@ -28,8 +32,19 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-        <Main />
-        {/* <App /> */}
+        <Router>
+            <Switch>
+              <Route exact path="/">
+                <FormTest />
+              </Route>
+              <Route exact path="/manager">
+                <Main />
+              </Route>
+              <Route path="/component">
+                <Second />
+              </Route>
+            </Switch>
+        </Router>
       </FirebaseAppProvider>
     </Provider>
   </React.StrictMode>,

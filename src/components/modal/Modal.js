@@ -1,5 +1,5 @@
 import './Style.css';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -26,6 +26,7 @@ function Modal() {
     const [criticalErrorValid, setCriticalErrorValid] = useState(false);
     const [criticalInput, setCriticalInput] = useState("");
 
+    const [update, setUpdate] = useState(false);
 
     const [dataArray, setDataArray] = useState([]);
 
@@ -85,9 +86,9 @@ function Modal() {
     };
 
     const criticalBlur = (e) => {
-        if(e.target.value.trim() === ""){
+        if (e.target.value.trim() === "") {
             e.target.value = "";
-        } else if(e.target.value < 1){
+        } else if (e.target.value < 1) {
             e.target.value = 1;
         }
         setCriticalInput(e.target.value);
@@ -99,7 +100,7 @@ function Modal() {
     };
 
     const criticalChange = (e) => {
-        if(e.target.value > 10){
+        if (e.target.value > 10) {
             e.target.value = 10;
         }
         if (e.target.value.trim() !== "") {
@@ -113,6 +114,11 @@ function Modal() {
         const response = await fetch('https://bugsmanager-9d88c-default-rtdb.firebaseio.com/bugs.json');
         const data = await response.json();
 
+        if(data !== dataArray){
+            console.log(`data changed`);
+            setDataArray(data);
+        }
+
         const loadedData = [];
 
         for (const key in data) {
@@ -125,7 +131,7 @@ function Modal() {
             });
         }
 
-        setDataArray(loadedData);
+        // setDataArray(loadedData);
         console.log('loaded data:', loadedData);
 
         dispatch(getData(loadedData));
@@ -134,21 +140,27 @@ function Modal() {
     const postToDB = async () => {
         const response = await fetch('https://bugsmanager-9d88c-default-rtdb.firebaseio.com/bugs.json', {
             method: 'POST',
-            body: JSON.stringify({ 
-                title: titleInput, 
-                description: descriptionInput, 
-                status: statusInput, 
+            body: JSON.stringify({
+                title: titleInput,
+                description: descriptionInput,
+                status: statusInput,
                 critical: criticalInput
             }),
             headers: {
                 'Content-Type': 'application/json'
             }
-        });
-        const data = await response.json();
-        console.log('post data:', data);
+        })
+        const newId = await response.json();
+        const newData = [{id: newId.name, title: titleInput, description: descriptionInput, status: statusInput, critical: criticalInput}];
+        const bla = dataRed.data.concat(newData)
+        dispatch(getData(bla))
 
-        getFromDB();
+        // getFromDB();
     };
+
+    useEffect(() => {
+        getFromDB();
+    }, []);
 
     const addClick = () => {
         if (titleInput.trim() === "") {
@@ -179,6 +191,23 @@ function Modal() {
         setStatusInput('');
         setCriticalErrorValid(false);
         setCriticalInput('');
+        return dispatch(closeModal());
+    };
+
+    const handleDelete = async() => {
+        const response = await fetch(`https://bugsmanager-9d88c-default-rtdb.firebaseio.com/bugs/${modalRed.firestoreRow.id}.json`, {
+            method: 'DELETE'
+          });
+
+        const data = await response.json();
+        console.log('data after delete:', data);
+        console.log('$$$$$',dataRed.data);
+
+        console.log(dataRed.data.filter(x => x.id !== modalRed.firestoreRow.id));
+
+
+        // getFromDB();
+        dispatch(getData(dataRed.data.filter(x => x.id !== modalRed.firestoreRow.id)));
         return dispatch(closeModal());
     };
 
@@ -283,9 +312,16 @@ function Modal() {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        cancel
-                    </Button>
+                    {modalRed.body === 'addBody' &&
+                        <Button onClick={handleClose} color="primary">
+                            cancel
+                        </Button>
+                    }
+                    {modalRed.body === 'bugDetailsBody' &&
+                        <Button onClick={handleDelete} color="primary">
+                            delete
+                        </Button>
+                    }
                     <Button onClick={modalRed.body === 'addBody' ? addClick : handleClose} color="primary" autoFocus>
                         ok
                     </Button>

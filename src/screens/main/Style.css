@@ -42,3 +42,26 @@
     width: 100%;
     bottom: 0px;
 }
+
+@media(max-width: 768px){
+    .bodyStyle{
+        background: #fff;
+        height: 90%;
+        width: 90%;
+        margin: auto;
+        position: absolute;
+        top: 52.5%;
+        left: 50%;
+        -moz-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .bugCardStyle{
+        height: 90%;
+        position: absolute;
+        width: 100%;
+        bottom: 0px;
+    }
+}
