@@ -1,3 +1,5 @@
+/* @import '~antd/dist/antd.css'; */
+
 .App {
   text-align: center;
 }
@@ -135,4 +137,8 @@ button:hover {
   border-radius: 50px;
   background: #e7e7e7;
   border: 1px solid #c5c5c5;
+}
+
+.ant-select-selection-overflow{
+  width: 200px;
 }

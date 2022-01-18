@@ -7,17 +7,19 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "antd": "^4.18.3",
     "bootstrap": "^5.1.0",
     "firebase": "^8.9.1",
     "firebase-tools": "^9.16.5",
     "formik": "^2.2.9",
+    "npm-force-resolutions": "0.0.10",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
     "react-dom": "^17.0.2",
     "react-fade-in": "^2.0.1",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^5.0.0",
     "reactfire": "^3.0.0-rc.3",
     "redux": "^4.1.1",
     "web-vitals": "^1.0.1",
@@ -27,13 +29,17 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "preinstall": "npx npm-force-resolutions"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
     ]
+  },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
   },
   "browserslist": {
     "production": [
