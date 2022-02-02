@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Second from "./second";
 import "antd/dist/antd.css";
+import One from './One';
 
 const store = createStore(
   allReducers,
@@ -36,7 +37,8 @@ ReactDOM.render(
         <Router>
             <Switch>
               <Route exact path="/">
-                <FormTest />
+                <One />
+                {/* <FormTest /> */}
               </Route>
               <Route exact path="/manager">
                 <Main />
