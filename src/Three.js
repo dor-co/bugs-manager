@@ -7,7 +7,6 @@ const Three = () => {
 
     const { user, setUser, temp } = useContext(UserContext);
 
-    console.log(temp)
     const changeHandle = (e) => {
         setUser(e.target.value)
     }
