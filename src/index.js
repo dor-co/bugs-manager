@@ -37,8 +37,8 @@ ReactDOM.render(
         <Router>
             <Switch>
               <Route exact path="/">
-                <One />
-                {/* <FormTest /> */}
+                {/* <One /> */}
+                <FormTest />
               </Route>
               <Route exact path="/manager">
                 <Main />
