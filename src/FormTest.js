@@ -28,7 +28,7 @@ const FormTest = () => (
             })}
             onSubmit={(values) => console.log('SUBMIT', values)}
             validate={(val) => { console.log('VALIDATE:', val) }}
-            render={({ values, touched, errors }) => (
+            render={({ values, touched, errors, handleSubmit }) => (
                 <Form>
                     {console.log('ERRORS:', errors)}
                     <Field
@@ -92,7 +92,7 @@ const FormTest = () => (
                                         add a User
                                     </button>
                                     <div>
-                                        <button type="submit">Form Submit</button>
+                                        <button type='button' onClick={handleSubmit}>Form Submit</button>
                                     </div>
                                 </div>
                             );
